@@ -37,6 +37,7 @@ LuCI ---> Applications ---> luci-app-wol   #WOL网络唤醒
 LuCI ---> Applications ---> luci-app-wrtbwmon  #实时流量监测
 LuCI ---> Applications ---> luci-app-xlnetacc  #迅雷快鸟
 LuCI ---> Applications ---> luci-app-zerotier  #ZeroTier内网穿透
+LuCI ---> Applications ---> luci-app-filetransfer  #文件传输（可web安装ipk包）
 Extra packages  --->  ipv6helper  #支持 ipv6
 Utilities  --->  open-vm-tools  #打开适用于VMware的VM Tools
 
