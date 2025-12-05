@@ -13,6 +13,9 @@ function git_sparse_clone() {
 #添加科学上网源
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall-packages package/openwrt-passwall-packages
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall package/openwrt-passwall
+# 新增：添加OpenClash（核心插件+依赖，适配主流固件）
+git clone --depth=1 -b master --single-branch https://github.com/vernesong/OpenClash package/OpenClash
+git clone --depth=1 https://github.com/vernesong/OpenClash/raw/master/master package/OpenClash/dependencies
 git clone -b 18.06 --single-branch --depth 1 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone -b 18.06 --single-branch --depth 1 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
 git clone --depth=1 https://github.com/ophub/luci-app-amlogic package/amlogic
@@ -35,6 +38,10 @@ rm -rf feeds/packages/utils/v2dat
 rm -rf feeds/luci/applications/luci-app-mosdns
 #rm -rf feeds/luci/themes/luci-theme-design
 #rm -rf feeds/luci/applications/luci-app-design-config
+
+# 新增：删除官方冲突包（避免与OpenClash依赖冲突）
+rm -rf feeds/luci/applications/luci-app-clash
+rm -rf feeds/packages/net/clash
 
 # Default IP
 sed -i 's/192.168.1.1/192.168.2.2/g' package/base-files/files/bin/config_generate
