@@ -17,6 +17,8 @@ git clone --depth=1 -b master --single-branch https://github.com/vernesong/OpenC
 git clone --depth=1 https://github.com/vernesong/OpenClash package/OpenClash
 git clone -b 18.06 --single-branch --depth 1 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone -b 18.06 --single-branch --depth 1 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
+git clone -b 3.97 --single-branch --depth 1 https://github.com/derisamedia/luci-theme-alpha package/luci-theme-alpha
+git clone --depth=1 -b master --single-branch https://github.com/animegasan/luci-app-alpha-config package/luci-app-alpha-config
 git clone --depth=1 https://github.com/ophub/luci-app-amlogic package/amlogic
 git clone --depth=1 https://github.com/sirpdboy/luci-app-ddns-go package/ddnsgo
 #git clone --depth=1 https://github.com/sirpdboy/NetSpeedTest package/NetSpeedTest
@@ -33,6 +35,9 @@ git clone --depth=1 https://github.com/gdy666/luci-app-lucky.git package/lucky
 rm -rf feeds/packages/net/v2ray-geodata
 rm -rf feeds/luci/themes/luci-theme-argon
 rm -rf feeds/luci/applications/luci-app-argon-config
+# ✅ 同步修改：删除feeds中默认alpha主题（避免3.97版本冲突）
+rm -rf feeds/luci/themes/luci-theme-alpha
+rm -rf feeds/luci/applications/luci-app-alpha-config
 rm -rf feeds/packages/net/mosdns
 rm -rf feeds/packages/utils/v2dat
 rm -rf feeds/luci/applications/luci-app-mosdns
