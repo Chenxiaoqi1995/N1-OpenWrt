@@ -13,7 +13,6 @@ function git_sparse_clone() {
 #添加科学上网源
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall-packages package/openwrt-passwall-packages
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall package/openwrt-passwall
-git clone --depth=1 -b master --single-branch https://github.com/vernesong/OpenClash-packages package/OpenClash-packages
 git clone --depth=1 https://github.com/vernesong/OpenClash package/OpenClash
 git clone -b 18.06 --single-branch --depth 1 https://github.com/jerrykuku/luci-theme-argon package/luci-theme-argon
 git clone -b 18.06 --single-branch --depth 1 https://github.com/jerrykuku/luci-app-argon-config package/luci-app-argon-config
