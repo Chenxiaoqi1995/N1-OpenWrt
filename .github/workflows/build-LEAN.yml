@@ -18,6 +18,11 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
+    - name: 创建编译空间挂载点
+      run: |
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+        
     - name: Check machine configuration
       run: |
         echo "警告⚠"
@@ -68,8 +73,9 @@ jobs:
       uses: easimon/maximize-build-space@master
       with: 
         root-reserve-mb: 10240
-        swap-size-mb: 1
-        remove-dotnet: 'true'
+        swap-size-mb: 1024
+        build-mount-path: /workdir
+        overprovision-lvm: 'true'
         remove-android: 'true'
         remove-haskell: 'true'
         remove-codeql: 'true'
