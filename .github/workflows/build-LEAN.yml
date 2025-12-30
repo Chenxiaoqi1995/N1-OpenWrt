@@ -6,8 +6,10 @@ on:
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  CONFIG_FILE: N1-LEDE/.config
-  DIY_SH: N1-LEDE/diy.sh
+  FEEDS_CONF: N1-LEDE/LE-feeds.conf.default
+  CONFIG_FILE: N1-LEDE/LE-mini.config
+  DIY_P1_SH: N1-LEDE/diy-part1.sh
+  DIY_P2_SH: N1-LEDE/diy-part2.sh
   FILES: N1-LEDE/files
   TZ: Asia/Shanghai
 
@@ -99,37 +101,42 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo chown $USER:$GROUPS $GITHUB_WORKSPACE
 
-    - name: Clone source code
-      working-directory: ./
+    - name: 克隆源码
+      working-directory: /workdir
       run: |
+        df -hT $PWD
         git clone $REPO_URL -b $REPO_BRANCH openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
         cd openwrt
-        sed -i 's|https://github.com/coolsnowwolf/luci.git;openwrt-23.05|https://github.com/coolsnowwolf/luci|g' feeds.conf.default
+        useVersionInfo=$(git show -s --date=short --format="date: %cd<br/>commit: %s<br/>commit hash: %H")
+        echo "useVersionInfo=$useVersionInfo" >> $GITHUB_ENV
+        echo "DATE=$(date "+%Y-%m-%d %H:%M:%S")" >> $GITHUB_ENV
+        echo "tag_name=$(date +%Y%m%d)" >> $GITHUB_ENV
 
-    - name: cache wrt build
-      uses: stupidloud/cachewrtbuild@main
-      with:
-        ccache: 'true'
-        mixkey: amlogic-${{ env.REPO_BRANCH }}
-        prefix: ${{ github.workspace }}/openwrt
-        
-    - name: Update & Install feeds
-      working-directory: ./openwrt
+    - name: 加载DIY_P1
       run: |
-        ./scripts/feeds update -a
-        ./scripts/feeds install -a
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
 
-    - name: Load custom config
+    - name: 更新feeds
+      run: cd openwrt && ./scripts/feeds update -a
+
+    - name: 安装feeds
+      run: cd openwrt && ./scripts/feeds install -a
+
+    - name: 加载DIY_P2
       run: |
         [ -e $FILES ] && mv $FILES openwrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_SH
+        chmod +x $DIY_P2_SH
         cd openwrt
-        $GITHUB_WORKSPACE/$DIY_SH
+        $GITHUB_WORKSPACE/$DIY_P2_SH
 
-    # - name: SSH connect to Actions
-      # uses: P3TERX/ssh2actions@main
-      # if: (github.event.inputs.ssh == 'true') || contains(github.event.action, 'ssh')
+    - name: SSH connect to Actions
+      uses: P3TERX/ssh2actions@main
+      if: (github.event.inputs.ssh == 'true') || contains(github.event.action, 'ssh')
 
     - name: Download package
       working-directory: ./openwrt
