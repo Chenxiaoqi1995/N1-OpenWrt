@@ -61,5 +61,8 @@ rm -rf feeds/luci/applications/luci-app-mosdns
 #rm -rf feeds/packages/lang/golang
 #git clone https://github.com/kenzok8/golang feeds/packages/lang/golang
 rm -rf feeds/packages/lang/golang
+rm -rf feeds/luci/themes/luci-theme-design
+rm -rf feeds/luci/applications/luci-app-design-config
+
 git clone https://github.com/sbwml/packages_lang_golang feeds/packages/lang/golang
 
