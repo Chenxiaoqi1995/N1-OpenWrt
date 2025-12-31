@@ -10,6 +10,37 @@
 # Description: OpenWrt DIY script part 2 (After Update feeds)
 #
 
+# ===================== 新增：Samba4 菜单位置调整 =====================
+# 功能：将 Samba4 菜单从 admin/nas 迁移到 admin/services
+# 可自定义配置
+MENU_NAME="Network Shares"  # 菜单显示名称（可改为中文："Samba 共享"）
+MENU_PRIORITY=10            # 排序优先级（数值越小越靠前）
+
+# 颜色输出函数
+red() { echo -e "\033[31m$1\033[0m"; }
+green() { echo -e "\033[32m$1\033[0m"; }
+
+# 查找 Samba4 控制器文件（兼容 Lean 源码/官方 feeds）
+SAMBA4_CTRL=""
+if [ -f "package/lean/luci-app-samba4/luasrc/controller/samba4.lua" ]; then
+    SAMBA4_CTRL="package/lean/luci-app-samba4/luasrc/controller/samba4.lua"
+elif [ -f "feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua" ]; then
+    SAMBA4_CTRL="feeds/luci/applications/luci-app-samba4/luasrc/controller/samba4.lua"
+fi
+
+# 执行菜单路径修改
+if [ -n "$SAMBA4_CTRL" ]; then
+    # 备份原文件（避免重复修改）
+    [ ! -f "${SAMBA4_CTRL}.bak" ] && cp -f "$SAMBA4_CTRL" "${SAMBA4_CTRL}.bak"
+    # 替换菜单路径、名称、优先级
+    sed -i "/entry({\"admin\",.*\"samba4\"}/c\    entry({\"admin\", \"services\", \"samba4\"}, cbi(\"samba4\"), _(\"${MENU_NAME}\"), ${MENU_PRIORITY}).dependent = true" "$SAMBA4_CTRL"
+    green "✅ Samba4 菜单位置已调整至：admin/services (名称：${MENU_NAME}，优先级：${MENU_PRIORITY})"
+else
+    yellow "⚠️  未找到 luci-app-samba4 控制器文件，跳过菜单调整"
+fi
+# ===================== Samba4 菜单调整结束 =====================
+
+# 原有自定义配置（保留不变）
 # Modify default IP   第一行19.07的路径   第二行23.05的路径
 #sed -i 's/192.168.1.1/192.168.123.2/g' package/base-files/files/bin/config_generate
 #sed -i 's/192.168.1.1/192.168.123.2/g' package/base-files/luci2/bin/config_generate
@@ -65,4 +96,3 @@ rm -rf feeds/luci/themes/luci-theme-design
 rm -rf feeds/luci/applications/luci-app-design-config
 
 git clone https://github.com/sbwml/packages_lang_golang feeds/packages/lang/golang
-
