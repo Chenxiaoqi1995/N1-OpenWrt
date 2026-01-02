@@ -1,8 +1,9 @@
 # 项目简介
 本固件适配斐讯 N1  iStore，追求精简纯净!<br>
 1、使用LEAN的openwrt源码，目前集成的都是自己需要的一些插件，L大固件默认勾选的部分插件做了精简！<br>
-2、自编译脚本吸取各个大佬的精华 代码使用fightroad的[项目][(https://github.com/fightroad/N1-OpenWrt)<br>，
-代码使用goodmen001的[项目][(https://github.com/goodmen001/My-OpenWrt)<br>
+2、自编译脚本吸取各个大佬的精华:
+fightroad的[项目][(https://github.com/fightroad/N1-OpenWrt)<br>，
+goodmen001的[项目][(https://github.com/goodmen001/My-OpenWrt)<br>
 3、配置文件很精简，自己要什么不要什么增减就行。N1编译必须的Basic Dependence不要精简！<br>
 4、目前的配置第一次编译大概是2.5小时左右，第二次编译使用缓存可以节省个把小时。<br>
 5、ipv6完整支持！<br>
