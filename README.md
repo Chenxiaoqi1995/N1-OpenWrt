@@ -20,9 +20,6 @@ CONFIG_PACKAGE_luci-app-ttyd=y<br>等
 CONFIG_PACKAGE_luci-theme-design=y<br>
 CONFIG_PACKAGE_luci-theme-argon=y<br>
 CONFIG_PACKAGE_luci-app-argon-config=y<br>等
-### vpn<br>
-CONFIG_PACKAGE_luci-app-openvpn-server=y<br>
-CONFIG_PACKAGE_luci-app-zerotier=y<br>
 <img width="1919" height="709" alt="image" src="https://github.com/user-attachments/assets/03c8cd0f-234e-498b-8897-cdd76977cdab" />
 <img width="1916" height="782" alt="image" src="https://github.com/user-attachments/assets/bb6f6e8b-3c1c-45b6-8dde-d2178456b554" />
 
